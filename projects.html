@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <section>
+        <div class="sec-projects__container">
+            <div class="sec-project__item">
+                <div data-project-categories=""></div>
+                <h1>All</h1>
+            </div>
+            <div class="sec-project__item">
+                <div data-project-categories="cloud"></div>
+                <h1>Cloud</h1>
+            </div>
+            <div class="sec-project__item">
+                <div data-project-categories="data management"></div>
+                <h1>Data management</h1>
+            </div>
+            <div class="sec-project__item">
+                <div data-project-categories="analytics"></div>
+                <h1>Analytics</h1>
+            </div>
+            <div class="sec-project__item">
+                <div data-project-categories="cloud, data management"></div>
+                <h1>Cloud and data management</h1>
+            </div>
+            <div class="sec-project__item">
+                <div data-project-categories="err"></div>
+                <h1>Error</h1>
+            </div>
+        </div>
+        <div class="buttons">
+            <button data-project-filter="All projects" tabindex="1">All</button>
+            <button data-project-filter="Cloud" tabindex="2">Cloud</button>
+            <button data-project-filter="Data Management" tabindex="3">Data management</button>
+            <button data-project-filter="Analytics" tabindex="4">Analytics</button>
+        </div>
+        <div class="active-filter">
+            <h2>Active filter: <span data-project-filter-label="">all</span></h2>
+        </div>
+    </section>
+</body>
+
+<style>
+    .sec-projects__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+</style>
+
+<script src="./projects.js" type="text/javascript"></script>
+
+</html>
