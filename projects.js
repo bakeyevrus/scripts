@@ -49,7 +49,12 @@ window.addEventListener('DOMContentLoaded', function () {
             }
 
             projects.forEach(function (projectEl) {
-                var projectCategoriesStr = projectEl.querySelector('[data-project-categories]').getAttribute('data-project-categories');
+                var projectCategoriesEl = projectEl.querySelector('[data-project-categories]');
+                if (projectCategoriesEl == null) {
+                    return;
+                }
+
+                var projectCategoriesStr = projectCategoriesEl.projectgetAttribute('data-project-categories')
                 var shouldBeDisplayed = projectCategoriesStr != null && projectCategoriesStr.toLowerCase().includes(filter.toLowerCase());
                 projectEl.style.display = shouldBeDisplayed ? 'flex' : 'none';
             });
