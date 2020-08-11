@@ -54,7 +54,7 @@ window.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
-                var projectCategoriesStr = projectCategoriesEl.projectgetAttribute('data-project-categories')
+                var projectCategoriesStr = projectCategoriesEl.getAttribute('data-project-categories');
                 var shouldBeDisplayed = projectCategoriesStr != null && projectCategoriesStr.toLowerCase().includes(filter.toLowerCase());
                 projectEl.style.display = shouldBeDisplayed ? 'flex' : 'none';
             });
