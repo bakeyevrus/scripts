@@ -16,8 +16,10 @@ function Sketch(opts) {
 
     this.fallbackEl = document.getElementById(opts.fallbackId);
     this.trackedEl = document.getElementById(opts.trackedElId);
-    this.trackedElOffset;
-    this.trackedLength;
+    this.trackedElOffset = this.trackedEl.offsetTop;
+    this.trackedElPaddingTop = parseFloat(window.getComputedStyle(this.trackedEl).paddingTop);
+    this.trackedElPaddingBottom = parseFloat(window.getComputedStyle(this.trackedEl).paddingBottom);
+    this.trackedElEffectiveHeight = this.trackedEl.getBoundingClientRect().height - this.trackedElPaddingBottom - this.trackedElPaddingTop;
     this.documentHeight;
 
     this.container = document.getElementById(opts.containerId);
@@ -121,7 +123,9 @@ function Sketch(opts) {
     function updateTrackedElDimensions() {
         _this.documentHeight = getDocHeight();
         _this.trackedElOffset = _this.trackedEl.offsetTop;
-        _this.trackedLength = _this.trackedEl.getBoundingClientRect().height;
+        _this.trackedElPaddingTop = parseFloat(window.getComputedStyle(_this.trackedEl).paddingTop);
+        _this.trackedElPaddingBottom = parseFloat(window.getComputedStyle(_this.trackedEl).paddingBottom);
+        _this.trackedElEffectiveHeight = _this.trackedEl.getBoundingClientRect().height - _this.trackedElPaddingBottom - _this.trackedElPaddingTop;
 
         function getDocHeight() {
             var doc = document;
@@ -209,13 +213,13 @@ function Sketch(opts) {
             return;
         }
 
-        if (scrollTop > _this.trackedElOffset + _this.trackedLength) {
+        if (scrollTop > _this.trackedElOffset + _this.trackedElEffectiveHeight) {
             _this.progress = 1;
             _this.ticking = false;
             return;
         }
 
-        var percentageScrolled = (scrollTop - _this.trackedElOffset) / _this.trackedLength * 100;
+        var percentageScrolled = (scrollTop - _this.trackedElOffset) / _this.trackedElEffectiveHeight * 100;
         if (percentageScrolled < 33.3) {
             _this.material.uniforms.texture1.value = _this.textures[0];
             _this.material.uniforms.texture2.value = _this.textures[1];
@@ -422,4 +426,4 @@ var defaultShader = `
       gl_FragColor = mix(color1,color2,final);
       // gl_FragColor =vec4(maskvalue0,final,0.,1.);
   }
-`  
+`
