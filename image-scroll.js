@@ -230,7 +230,7 @@ function Sketch(opts) {
             _this.material.uniforms.texture2.value = _this.textures[2];
             _this.progress = THREE.Math.mapLinear(percentageScrolled, 33.3, 66.6, 0, 1);;
         }
-        console.log(percentageScrolled, _this.progress);
+        
         _this.ticking = false;
     }
 }
