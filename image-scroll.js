@@ -62,14 +62,14 @@ function Sketch(opts) {
 
         manager.onLoad = function () {
             if (!error) {
-                console.log('Some debugging');
+                console.error('Some debugging');
                 cb();
             }
         }
 
         manager.onError = function () {
             error = true;
-            console.log('Error set to ', error);
+            console.error('Error set to ', error);
         }
 
         _this.images.forEach((url, i) => {
@@ -87,6 +87,7 @@ function Sketch(opts) {
     }
 
     function addListeners() {
+        console.error('Adding listeners');
         window.addEventListener('scroll', requestTick, false);
         window.addEventListener("resize", function () {
             resize.call(_this);
