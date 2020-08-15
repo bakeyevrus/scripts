@@ -36,7 +36,7 @@ function AnimationController(containerId) {
         }
 
         manager.onError = function(url) {
-          console.log('Cannot load ', url);
+          console.error('Cannot load ', url);
         }
       }
   
@@ -116,7 +116,7 @@ function AnimationController(containerId) {
         }
 
         manager.onError = function(url) {
-          console.log('Cannot load ', url);
+          console.error('Cannot load ', url);
         }
   
         document.querySelectorAll('[data-slide-img]').forEach(function (el) {
