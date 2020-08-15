@@ -114,6 +114,10 @@ function AnimationController(containerId) {
         manager.onLoad = function () {
           startListening();
         }
+
+        manager.onError = function(url) {
+          console.log('Cannot load ', url);
+        }
   
         document.querySelectorAll('[data-slide-img]').forEach(function (el) {
           var imgUrl = el.getAttribute('data-slide-img');
