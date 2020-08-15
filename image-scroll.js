@@ -55,12 +55,19 @@ function Sketch(opts) {
     });
 
     function initiate(cb) {
+        var error = false;
         var manager = new THREE.LoadingManager();
         var imgLoader = new THREE.TextureLoader(manager);
         imgLoader.setCrossOrigin('Anonymous');
 
         manager.onLoad = function () {
-            cb();
+            if (!error) {
+                cb();
+            }
+        }
+
+        manager.onError = function () {
+            error = true;
         }
 
         _this.images.forEach((url, i) => {
@@ -230,7 +237,7 @@ function Sketch(opts) {
             _this.material.uniforms.texture2.value = _this.textures[2];
             _this.progress = THREE.Math.mapLinear(percentageScrolled, 33.3, 66.6, 0, 1);;
         }
-        
+
         _this.ticking = false;
     }
 }
