@@ -74,6 +74,7 @@ function Sketch(opts) {
 
         _this.images.forEach((url, i) => {
             imgLoader.load(url, function (img) {
+                console.log('Setting texture ', url);
                 _this.textures[i] = img;
                 _this.textures[i].minFilter = THREE.LinearFilter;
             });
