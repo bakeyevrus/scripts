@@ -34,6 +34,10 @@ function AnimationController(containerId) {
           _this.slideImages = images;
           initThreejs();
         }
+
+        manager.onError = function(url) {
+          console.log('Cannot load ', url);
+        }
       }
   
       function getDefaultImgUrl() {
