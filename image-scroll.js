@@ -62,12 +62,14 @@ function Sketch(opts) {
 
         manager.onLoad = function () {
             if (!error) {
+                console.log('Some debugging');
                 cb();
             }
         }
 
         manager.onError = function () {
             error = true;
+            console.log('Error set to ', error);
         }
 
         _this.images.forEach((url, i) => {
