@@ -20,6 +20,7 @@ function AnimationController(containerId) {
   
       function preloadDefaultImage() {
         var images = {};
+        var error = false;
   
         var manager = new THREE.LoadingManager();
         var imgLoader = new THREE.ImageLoader(manager);
@@ -31,12 +32,15 @@ function AnimationController(containerId) {
         });
 
         manager.onLoad = function () {
-          _this.slideImages = images;
-          initThreejs();
+          if (!error) {
+            _this.slideImages = images;
+            initThreejs();
+          }
         }
 
         manager.onError = function(url) {
           console.error('Cannot load ', url);
+          error = true;
         }
       }
   
