@@ -1,23 +1,26 @@
 window.addEventListener('DOMContentLoaded', function () {
-    enableProjectFilters();
+    enableProjectFilters({
+        projectItemSelector: '.projects__item'
+    });
 
-    function enableProjectFilters() {
+    function enableProjectFilters(opts) {
         var filterLabelEl = document.querySelector('[data-project-filter-label]');
         if (filterLabelEl == null) {
             throw new Error("DOM element with attribute 'data-project-filter-label' doesn't exist");
         }
-        var projects = document.querySelectorAll('.sec-project__item');
+        var projects = document.querySelectorAll(opts.projectItemSelector);
 
         var pageDefaultFilter = 'all projects';
-        var activeFilter = getUrlParameterByName('filter') || pageDefaultFilter;
-
-        if (activeFilter !== pageDefaultFilter) {
+        var activeFilter = pageDefaultFilter;
+        var queryFilter = getUrlParameterByName('filter');
+        if (queryFilter != null) {
+            activeFilter = queryFilter.toLowerCase();
             filterProjects(activeFilter);
         }
 
         document.querySelectorAll('[data-project-filter]').forEach(function (el) {
             var filterValue = el.getAttribute('data-project-filter');
-            el.addEventListener('click', onFilterClick(filterValue));
+            el.addEventListener('click', onFilterClick(filterValue.toLowerCase()));
         });
 
         function getUrlParameterByName(name, url) {
@@ -42,20 +45,24 @@ window.addEventListener('DOMContentLoaded', function () {
 
         function filterProjects(filter) {
             filterLabelEl.innerText = filter;
-            filter = filter.toLowerCase();
+
             if (filter === pageDefaultFilter) {
                 projects.forEach(function (projectEl) { projectEl.style.display = 'flex'; });
                 return;
             }
 
             projects.forEach(function (projectEl) {
-                var projectCategoriesEl = projectEl.querySelector('[data-project-categories]');
-                if (projectCategoriesEl == null) {
+                var projectCategoryElements = projectEl.querySelectorAll('[data-project-filter-value]');
+                if (projectCategoryElements == null || projectCategoryElements.length == 0) {
                     return;
                 }
 
-                var projectCategoriesStr = projectCategoriesEl.getAttribute('data-project-categories');
-                var shouldBeDisplayed = projectCategoriesStr != null && projectCategoriesStr.toLowerCase().includes(filter.toLowerCase());
+                var projectCategoriesStr = Array.from(
+                    projectCategoryElements,
+                    function (el) { return el.getAttribute('data-project-filter-value').toLowerCase(); }
+                ).join(', ');
+                var shouldBeDisplayed = projectCategoriesStr.includes(filter);
+
                 projectEl.style.display = shouldBeDisplayed ? 'flex' : 'none';
             });
         }
