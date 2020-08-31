@@ -14,10 +14,10 @@ window.addEventListener('DOMContentLoaded', function () {
             trackedElId: 'portfolio',
             debug: false,
             uniforms: {
-                width: { value: 0.5, type: 'f', min: 0, max: 10 },
-                scaleX: { value: 40, type: 'f', min: 0.1, max: 60 },
-                scaleY: { value: 40, type: 'f', min: 0.1, max: 60 },
-                // border: {value: 1, type:'f', min:0., max:1},
+                width: { value: 10, type: 'f', min: 0, max: 10 },
+                scaleX: { value: 2, type: 'f', min: 0.1, max: 60 },
+                scaleY: { value: 2, type: 'f', min: 0.1, max: 60 },
+                border: {value: 1, type:'f', min:0., max:1},
             },
         });
     }
