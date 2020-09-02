@@ -8,20 +8,26 @@ window.addEventListener('DOMContentLoaded', function () {
         if (filterLabelEl == null) {
             throw new Error("DOM element with attribute 'data-project-filter-label' doesn't exist");
         }
+
+        var filterButtons = Array.from(document.querySelectorAll('[data-project-filter'))
+            .reduce(function (aggr, btn) {
+                var attribute = btn.getAttribute('data-project-filter');
+                var filterValue = attribute.toLowerCase();
+                aggr[filterValue] = {
+                    value: filterValue,
+                    label: attribute,
+                    el: btn,
+                }
+
+                btn.addEventListener('click', onFilterClick(filterValue));
+                return aggr;
+            }, { 'all projects': { value: 'all projects', label: 'All Projects' } });
+
         var projects = document.querySelectorAll(opts.projectItemSelector);
 
         var pageDefaultFilter = 'all projects';
-        var activeFilter = pageDefaultFilter;
-        var queryFilter = getUrlParameterByName('filter');
-        if (queryFilter != null) {
-            activeFilter = queryFilter.toLowerCase();
-            filterProjects(activeFilter);
-        }
-
-        document.querySelectorAll('[data-project-filter]').forEach(function (el) {
-            var filterValue = el.getAttribute('data-project-filter');
-            el.addEventListener('click', onFilterClick(filterValue.toLowerCase()));
-        });
+        var activeFilter = (getUrlParameterByName('filter') || pageDefaultFilter).toLowerCase();
+        filterProjects(activeFilter);
 
         function getUrlParameterByName(name, url) {
             if (!url) url = window.location.href;
@@ -38,14 +44,23 @@ window.addEventListener('DOMContentLoaded', function () {
                 if (activeFilter === filterValue) {
                     return;
                 }
-                activeFilter = filterValue;
                 filterProjects(filterValue);
             }
         }
 
         function filterProjects(filter) {
-            filterLabelEl.innerText = filter;
+            if (filterButtons[filter] == null) {
+                console.warn('Filter ' + filter + ' does not exist');
+                activeFilter = pageDefaultFilter;
+                return;
+            }
 
+            filterButtons[activeFilter].el.classList.remove('active-filter');
+            filterButtons[filter].el.classList.add('active-filter');
+
+            filterLabelEl.innerText = filterButtons[filter].label;
+
+            activeFilter = filter;
             if (filter === pageDefaultFilter) {
                 projects.forEach(function (projectEl) { projectEl.style.display = 'flex'; });
                 return;
