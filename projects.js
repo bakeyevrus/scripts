@@ -4,28 +4,22 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 
     function enableProjectFilters(opts) {
-        var filterLabelEl = document.querySelector('[data-project-filter-label]');
-        if (filterLabelEl == null) {
-            throw new Error("DOM element with attribute 'data-project-filter-label' doesn't exist");
-        }
-
         var filterButtons = Array.from(document.querySelectorAll('[data-project-filter'))
             .reduce(function (aggr, btn) {
                 var attribute = btn.getAttribute('data-project-filter');
                 var filterValue = attribute.toLowerCase();
                 aggr[filterValue] = {
                     value: filterValue,
-                    label: attribute,
                     el: btn,
                 }
 
                 btn.addEventListener('click', onFilterClick(filterValue));
                 return aggr;
-            }, { 'all projects': { value: 'all projects', label: 'All Projects' } });
+            }, { 'all': { value: 'all' } });
 
         var projects = document.querySelectorAll(opts.projectItemSelector);
 
-        var pageDefaultFilter = 'all projects';
+        var pageDefaultFilter = 'all';
         var activeFilter = (getUrlParameterByName('filter') || pageDefaultFilter).toLowerCase();
         filterProjects(activeFilter);
 
@@ -55,10 +49,8 @@ window.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            filterButtons[activeFilter].el.classList.remove('active-filter');
-            filterButtons[filter].el.classList.add('active-filter');
-
-            filterLabelEl.innerText = filterButtons[filter].label;
+            filterButtons[activeFilter].el.classList.remove('is-selected');
+            filterButtons[filter].el.classList.add('is-selected');
 
             activeFilter = filter;
             if (filter === pageDefaultFilter) {
