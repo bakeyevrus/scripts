@@ -1,5 +1,4 @@
-var test;
-function AnimationController(containerId) {
+function AnimationController(containerId, opts) {
   console.ward = function () { }; // what warnings?
 
   this.ingoreFirstCompleteEvent = true;
@@ -118,7 +117,11 @@ function AnimationController(containerId) {
 
       manager.onLoad = function () {
         if (!error) {
-          startListening();
+          if (opts.slideShow) {
+            startSlideShow();
+          } else {
+            startListening();
+          }
         }
       }
 
@@ -133,6 +136,24 @@ function AnimationController(containerId) {
           _this.slideImages[imgUrl] = img;
         });
       });
+    }
+
+    function startSlideShow() {
+      var elTriggers = [];
+      var currentIdx = 1;
+      document.querySelectorAll('[data-slide-img]').forEach(function (elem, idx) {
+        elTriggers[idx] = elem;
+      });
+
+      setInterval(function() {
+        var targetEl = elTriggers[currentIdx];
+        var imgToTransition = targetEl.getAttribute('data-slide-img')
+        _this.nextImg = imgToTransition;
+        _this.hoveredEl = targetEl;
+        playNextAnimation(_this.timeline);
+        console.log(`Showing img ${elTriggers[currentIdx]}, index ${currentIdx}`);
+        currentIdx = (currentIdx + 1) % elTriggers.length;
+      }, opts.slideInterval || 3000);
     }
 
     function startListening() {
