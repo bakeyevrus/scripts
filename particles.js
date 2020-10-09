@@ -31,6 +31,7 @@ function AnimationController(containerId, opts) {
       });
 
       manager.onLoad = function () {
+        console.log('On Load called'); 
         if (!error) {
           _this.slideImages = images;
           initThreejs();
@@ -38,6 +39,7 @@ function AnimationController(containerId, opts) {
       }
 
       manager.onError = function (url) {
+        console.log('On Error called');
         console.error('Cannot load ', url);
         error = true;
       }
@@ -151,7 +153,6 @@ function AnimationController(containerId, opts) {
         _this.nextImg = imgToTransition;
         _this.hoveredEl = targetEl;
         playNextAnimation(_this.timeline);
-        console.log(`Showing img ${elTriggers[currentIdx]}, index ${currentIdx}`);
         currentIdx = (currentIdx + 1) % elTriggers.length;
       }, opts.slideInterval || 3000);
     }
