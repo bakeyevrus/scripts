@@ -23,7 +23,7 @@ function AnimationController(containerId, opts) {
 
       var manager = new THREE.LoadingManager();
       var imgLoader = new THREE.ImageLoader(manager);
-      imgLoader.setCrossOrigin('Anonymous');
+      imgLoader.setCrossOrigin('anonymous');
 
       var defaultImgUrl = getDefaultImgUrl();
       imgLoader.load(defaultImgUrl, function (img) {
