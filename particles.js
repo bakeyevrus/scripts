@@ -19,30 +19,19 @@ function AnimationController(containerId, opts) {
 
     function preloadDefaultImage() {
       var images = {};
-      var error = false;
 
-      var manager = new THREE.LoadingManager();
-      var imgLoader = new THREE.ImageLoader(manager);
-      imgLoader.setCrossOrigin('anonymous');
-
-      var defaultImgUrl = getDefaultImgUrl() + '?';
-      imgLoader.load(defaultImgUrl, function (img) {
-        images[defaultImgUrl] = img;
-      });
-
-      manager.onLoad = function () {
-        console.log('On Load called'); 
-        if (!error) {
+      var textureLoader = new THREE.TextureLoader();
+      var defaultImgUrl = getDefaultImgUrl();
+      textureLoader.load(
+        // Needed to avoid Webflow CORS issues
+        defaultImgUrl + '?',
+        function(texture) {
+          console.log(`Image loaded from ${defaultImgUrl}`, typeof texture, texture);
+          images[defaultImgUrl] = texture;
           _this.slideImages = images;
           initThreejs();
         }
-      }
-
-      manager.onError = function (url) {
-        console.log('On Error called');
-        console.error('Cannot load ', url);
-        error = true;
-      }
+      )
     }
 
     function getDefaultImgUrl() {
