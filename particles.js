@@ -21,6 +21,7 @@ function AnimationController(containerId, opts) {
       var images = {};
 
       var textureLoader = new THREE.TextureLoader();
+      textureLoader.setCrossOrigin('Anonymous');
       var defaultImgUrl = getDefaultImgUrl();
       textureLoader.load(
         // Needed to avoid Webflow CORS issues
@@ -301,7 +302,7 @@ function Slide(width, height, animationPhase) {
 
   var material = new THREE.BAS.BasicAnimationMaterial(
     {
-      shading: THREE.FlatShading,
+      flatShading: THREE.FlatShading,
       side: THREE.DoubleSide,
       uniforms: {
         uTime: { type: 'f', value: 0 }
