@@ -20,17 +20,41 @@ function AnimationController(containerId, opts) {
     function preloadDefaultImage() {
       var images = {};
 
-      var textureLoader = new THREE.TextureLoader();
-      textureLoader.setCrossOrigin('Anonymous');
+      // var textureLoader = new THREE.TextureLoader();
+      // textureLoader.setCrossOrigin('Anonymous');
+      // var defaultImgUrl = getDefaultImgUrl();
+      // textureLoader.load(
+      //   // Needed to avoid Webflow CORS issues
+      //   defaultImgUrl + '?',
+      //   function(texture) {
+      //     console.log(`Image loaded from ${defaultImgUrl}`, texture);
+      //     images[defaultImgUrl] = texture;
+      //     _this.slideImages = images;
+      //     initThreejs();
+      //   }
+      // )
+
+      var imageLoader = new THREE.ImageLoader();
+      imageLoader.setCrossOrigin('Anonymous');
+      
       var defaultImgUrl = getDefaultImgUrl();
-      textureLoader.load(
+      imageLoader.load(
         // Needed to avoid Webflow CORS issues
         defaultImgUrl + '?',
-        function(texture) {
-          console.log(`Image loaded from ${defaultImgUrl}`, typeof texture, texture);
-          images[defaultImgUrl] = texture;
+        // onLoad
+        function(image) {
+          console.log(`Image loaded from ${defaultImgUrl}`, image);
+          
+          images[defaultImgUrl] = image;
           _this.slideImages = images;
+          
           initThreejs();
+        },
+        // onProgress
+        undefined,
+        // onError
+        function() {
+          console.log('Error while loading image');
         }
       )
     }
